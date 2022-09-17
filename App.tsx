@@ -4,6 +4,7 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 import { AnimatedStroke } from './components/AnimatedStroke';
+import { Background } from './components/Background';
 
 export default function App() {
   const vWidth = 1341;
@@ -39,6 +40,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.layer}>
+      <Background />
         <Svg width={width} height={height} viewBox={[-10/2, -10/2, vWidth+10/2, vHeight+10].join(" ")}>
           {
             svgPath.map((d, key)=>(
@@ -59,6 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   layer:{
+    ...StyleSheet.absoluteFillObject,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
