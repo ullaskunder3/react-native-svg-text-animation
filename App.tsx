@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
+import { AnimatedStroke } from './components/AnimatedStroke';
 
 export default function App() {
-  const colors = ['#ff435c', '#00b2ed', '#002461', '#ffddf2', '#ff61d3']
   const vWidth = 1341;
   const vHeight = 425;
   const width = Dimensions.get('window').width - 65;
@@ -30,13 +32,17 @@ export default function App() {
     "M987.752 305.8C987.752 284.8 968.352 275.8 940.352 275.8C910.352 275.8 893.952 290.6 893.952 302.2C893.952 308.2 898.952 313.4 906.352 313.4C917.952 313.4 918.552 297.4 940.152 297.4C949.952 297.4 958.552 301 958.552 309.4C958.552 317.8 952.952 319.4 945.952 320.2L928.152 322.2C905.752 324.8 887.352 331.6 887.352 355.8C887.352 374.2 903.752 385.6 920.352 385.6C935.752 385.6 948.952 381.2 960.352 368.6C960.752 377.6 964.952 385.6 977.552 385.6C984.552 385.6 990.752 381 990.752 374.4C990.752 369.8 987.752 367 987.752 354.8V305.8ZM958.552 345.2C958.552 356 948.752 366.4 932.752 366.4C922.752 366.4 916.552 361 916.552 354.4C916.552 345.6 923.152 341.8 935.352 340L945.952 338.4C949.352 337.8 955.352 336.8 958.552 333.8V345.2Z",
     "M1048.82 251.8C1048.82 241.6 1043.02 236.4 1033.02 236.4C1023.02 236.4 1017.22 241.6 1017.22 251.8V275C1017.22 278 1017.62 281.2 1018.02 284.4L1024.22 331.2C1025.02 337 1027.82 338.6 1033.02 338.6C1038.22 338.6 1041.02 337 1041.82 331.2L1048.02 284.4C1048.42 281.2 1048.82 278 1048.82 275V251.8ZM1016.62 368C1016.62 377 1024.02 384.4 1033.02 384.4C1042.02 384.4 1049.42 377 1049.42 368C1049.42 359 1042.02 351.6 1033.02 351.6C1024.02 351.6 1016.62 359 1016.62 368Z",
   ]
+  const progress = useSharedValue(0);
+  useEffect(()=>{
+    progress.value = withTiming(1, {duration: 4000, easing: Easing.linear})
+  }, [progress])
   return (
     <View style={styles.container}>
       <View style={styles.layer}>
         <Svg width={width} height={height} viewBox={[-10/2, -10/2, vWidth+10/2, vHeight+10].join(" ")}>
           {
             svgPath.map((d, key)=>(
-              <Path d={d} stroke={'#001947'} strokeWidth={10} key={key} />
+              <AnimatedStroke progress={progress} d={d} key={key} />
             ))
           }
         </Svg>
